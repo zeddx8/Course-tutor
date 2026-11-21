@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Course Tutor",
+    "slug": "course-tutor",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#047857"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.coursetutor.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#047857"
+      },
+      "package": "com.coursetutor.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "campus": "Cape Coast Technical University (CCTU)",
+      "version": "1.0.0-mvp",
+      "eas": {
+        "projectId": "coursetutor-cctu"
+      }
+    }
+  }
+}
