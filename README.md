@@ -1,7 +1,7 @@
 # Course Tutor — Cross-Platform Mobile App (Android & iOS)
 
-> **Commercial Peer-Tutoring Marketplace for Ghanaian Universities**  
-> Initial Beachhead Launch: **Cape Coast Technical University (CCTU), Ghana** (`cctu.edu.gh`)  
+> **Commercial Peer-Tuoring Marketplace for Ghanaian Universities**  
+> Initial Beachhead Launcth: **Cape Coast Technical University (CCTU), Ghana** (`cctu.edu.gh`)  
 > Full compliance with the Master Software Project Documentation (MVP Blueprint v1.0) & Ghana Data Protection Act, 2012 (Act 843).
 
 ---
