@@ -35,3 +35,5 @@ desktop.ini
 *.p12
 *.key
 *.mobileprovision
+
+.idea/

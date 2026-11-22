@@ -179,67 +179,69 @@ const MainNavigator = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor={THEME.colors.primary} />
-      <Header />
-      <View style={styles.contentArea}>{renderContent()}</View>
+      <View style={styles.webFrame}>
+        <Header />
+        <View style={styles.contentArea}>{renderContent()}</View>
 
-      {/* Student Bottom Navigation Bar */}
-      {currentRole === 'student' && !selectedTutor && !showChatScreen && !showTutorApply && (
-        <View style={styles.bottomNav}>
-          <TouchableOpacity
-            style={[styles.navItem, studentTab === 'discover' && styles.navItemActive]}
-            onPress={() => setStudentTab('discover')}
-          >
-            <Text style={styles.navIcon}>🔍</Text>
-            <Text style={[styles.navLabel, studentTab === 'discover' && styles.navLabelActive]}>
-              Discover
-            </Text>
-          </TouchableOpacity>
+        {/* Student Bottom Navigation Bar */}
+        {currentRole === 'student' && !selectedTutor && !showChatScreen && !showTutorApply && (
+          <View style={styles.bottomNav}>
+            <TouchableOpacity
+              style={[styles.navItem, studentTab === 'discover' && styles.navItemActive]}
+              onPress={() => setStudentTab('discover')}
+            >
+              <Text style={styles.navIcon}>🔍</Text>
+              <Text style={[styles.navLabel, studentTab === 'discover' && styles.navLabelActive]}>
+                Discover
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.navItem, studentTab === 'sessions' && styles.navItemActive]}
-            onPress={() => setStudentTab('sessions')}
-          >
-            <View>
-              <Text style={styles.navIcon}>📅</Text>
-              {bookings.length > 0 && (
-                <View style={styles.tabBadge}>
-                  <Text style={styles.tabBadgeText}>{bookings.length}</Text>
-                </View>
-              )}
-            </View>
-            <Text style={[styles.navLabel, studentTab === 'sessions' && styles.navLabelActive]}>
-              Sessions
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.navItem, studentTab === 'sessions' && styles.navItemActive]}
+              onPress={() => setStudentTab('sessions')}
+            >
+              <View>
+                <Text style={styles.navIcon}>📅</Text>
+                {bookings.length > 0 && (
+                  <View style={styles.tabBadge}>
+                    <Text style={styles.tabBadgeText}>{bookings.length}</Text>
+                  </View>
+                )}
+              </View>
+              <Text style={[styles.navLabel, studentTab === 'sessions' && styles.navLabelActive]}>
+                Sessions
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.navItem, studentTab === 'profile' && styles.navItemActive]}
-            onPress={() => setStudentTab('profile')}
-          >
-            <Text style={styles.navIcon}>👤</Text>
-            <Text style={[styles.navLabel, studentTab === 'profile' && styles.navLabelActive]}>
-              Profile
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
+            <TouchableOpacity
+              style={[styles.navItem, studentTab === 'profile' && styles.navItemActive]}
+              onPress={() => setStudentTab('profile')}
+            >
+              <Text style={styles.navIcon}>👤</Text>
+              <Text style={[styles.navLabel, studentTab === 'profile' && styles.navLabelActive]}>
+                Profile
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
-      {/* Paystack Checkout Modal */}
-      {checkoutParams.tutor && checkoutParams.course && (
-        <PaystackCheckoutModal
-          visible={checkoutParams.visible}
-          onClose={() => setCheckoutParams((prev) => ({ ...prev, visible: false }))}
-          tutor={checkoutParams.tutor}
-          course={checkoutParams.course}
-          sessionType={checkoutParams.sessionType}
-          deliveryMode={checkoutParams.deliveryMode}
-          locationOrLink={checkoutParams.locationOrLink}
-          date={checkoutParams.date}
-          time={checkoutParams.time}
-          durationMinutes={checkoutParams.durationMinutes}
-          onSuccess={handleCheckoutSuccess}
-        />
-      )}
+        {/* Paystack Checkout Modal */}
+        {checkoutParams.tutor && checkoutParams.course && (
+          <PaystackCheckoutModal
+            visible={checkoutParams.visible}
+            onClose={() => setCheckoutParams((prev) => ({ ...prev, visible: false }))}
+            tutor={checkoutParams.tutor}
+            course={checkoutParams.course}
+            sessionType={checkoutParams.sessionType}
+            deliveryMode={checkoutParams.deliveryMode}
+            locationOrLink={checkoutParams.locationOrLink}
+            date={checkoutParams.date}
+            time={checkoutParams.time}
+            durationMinutes={checkoutParams.durationMinutes}
+            onSuccess={handleCheckoutSuccess}
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -255,7 +257,23 @@ export default function App() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: THEME.colors.primary,
+    backgroundColor: '#034d38',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  webFrame: {
+    flex: 1,
+    width: '100%',
+    maxWidth: 640,
+    backgroundColor: THEME.colors.background,
+    overflow: 'hidden',
+    ...Platform.select({
+      web: {
+        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
+        height: '100vh',
+      },
+      default: {},
+    }),
   },
   contentArea: {
     flex: 1,
