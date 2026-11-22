@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       web: {
         boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
-        height: '100vh',
+        height: '100%' as any,
       },
       default: {},
     }),

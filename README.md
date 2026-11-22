@@ -1,148 +1,126 @@
-# Course Tutor — Cross-Platform Mobile App (Android & iOS)
+# Course Tutor — Web App & Cross-Platform Mobile Marketplace
 
-> **Commercial Peer-Tuoring Marketplace for Ghanaian Universities**  
-> Initial Beachhead Launcth: **Cape Coast Technical University (CCTU), Ghana** (`cctu.edu.gh`)  
-> Full compliance with the Master Software Project Documentation (MVP Blueprint v1.0) & Ghana Data Protection Act, 2012 (Act 843).
-
----
-
-## 📱 Platform Overview
-
-**Course Tutor** is an independent, mobile-first marketplace that connects Ghanaian tertiary students who need academic or practical technical support with vetted peer tutors, Teaching Assistants (TAs), and National Service Personnel (NSP). 
-
-The platform supports **both Android and iOS** out of the box, as well as Progressive Web Application (PWA) and Expo Go modes.
-
-### Key Pillars
-1. **Academic Hierarchy Partitioning**: Pre-seeded CCTU academic catalog across 5 Schools, Graduate School, and 18 Academic Departments with multi-campus `university_id` isolation.
-2. **Mandatory Tutor Proof of Competence**: Enforces uploaded Student/Staff ID verification and academic transcripts demonstrating an **A** or **B+** in nominated courses.
-3. **End-to-End Escrow Protection**: Funds paid via Mobile Money (**MTN MoMo, Telecel Cash, AT Money**) are held in platform escrow until session attendance is confirmed.
-4. **Attendance Check-In PIN**: Every confirmed booking generates a unique 6-character Check-In PIN visible only to the student. The tutor verifies the PIN to authorize atomic escrow release to their wallet.
-5. **Anti-Bypass Shield**: In-app messaging engine detects and masks phone numbers and off-platform payment attempts to safeguard escrow protection.
+> **Peer Tutoring Marketplace for Ghanaian Universities**  
+> Initial Beachhead Launch: **Cape Coast Technical University (CCTU), Ghana** (`cctu.edu.gh`)  
+> Full compliance with the Master Software Project Documentation & Ghana Data Protection Act, 2012 (Act 843).
 
 ---
 
-## 🏗️ System Architecture & Screen Map
+## 🌐 Live Web Application & Mobile Support
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        COURSE TUTOR MOBILE APP                         │
-│                         (React Native / Expo)                          │
-└──────────────────────────────────┬─────────────────────────────────────┘
-                                   │
-         ┌─────────────────────────┼─────────────────────────┐
-         ▼                         ▼                         ▼
-  STUDENT FLOW                TUTOR FLOW                ADMIN OPS
-  ├─ Search by Course Code    ├─ Verified Application   ├─ Tutor Vetting Queue
-  │  (CST 204, ACC 101, etc)  │  (ID & Transcript A/B+) │  (ID & Transcript)
-  ├─ Theory vs Practical      ├─ Live Schedule          ├─ Paystack Recipient
-  ├─ Solo vs Group Rates      ├─ Check-In PIN Entry     │  Auto-Registration
-  ├─ Paystack MoMo Checkout   │  (Releases Escrow)      ├─ Dispute Resolution
-  ├─ 6-Digit Check-In Code    ├─ MoMo Payout Wallet     │  (100%, 50%, Release)
-  └─ Verified Reviews & Chat  └─ Anti-Bypass Messaging └─ CCTU Course Catalog
-```
+The platform includes both a **modern, responsive Web Application** built following the **Senior Pro Dev + UI** design system standards and a **cross-platform React Native / Expo mobile app** supporting Android and iOS.
 
----
-
-## 🗄️ PostgreSQL Database Schema (PRD 03 Aligned)
-
-The database design partitions into four operational domains across 11 normalized tables:
-
-1. **Domain A (Academic Hierarchy)**:
-   - `universities`: Multi-campus master (`CCTU`, `UCC`, `KNUST`, `UG`).
-   - `schools`: 5 faculties + School of Graduate Studies.
-   - `departments`: 18 departments (Civil, Electrical, Mechanical, Computer Science, Statistics, Accounting, Marketing, etc.).
-   - `courses`: Course codes, titles, levels (100–500), and categories (`theory` vs `practical_software`).
-
-2. **Domain B (Users & Tutor Vetting)**:
-   - `users`: Student/Staff index numbers, phone (+233 format), study sessions (`regular`, `evening`, `weekend`), programme tiers (`B.Tech`, `M.Tech`, `HND`).
-   - `tutor_profiles`: Solo & group hourly rates (GHS), MoMo number & network, Paystack recipient code, rating.
-   - `tutor_courses`: Grade achieved (`A`, `B+`) verified against official transcripts.
-
-3. **Domain C (Bookings & Quality)**:
-   - `bookings`: Hybrid delivery (`on_campus` vs `online`), 6-character `checkin_code`, status lifecycle (`pending_payment` -> `confirmed` -> `in_progress` -> `completed` / `disputed`).
-   - `reviews`: Verified 1–5 star reviews restricted to completed bookings.
-
-4. **Domain D (Escrow & Ledger)**:
-   - `transactions`: Paystack webhook references, gross amounts, platform fee (15%), tutor share (85%), escrow status (`held`, `released`, `refunded`).
-   - `tutor_wallets`: Atomic isolation between `available_balance` and `pending_balance`.
-   - `payouts`: Paystack MoMo Transfer API disbursement ledger.
-
----
-
-## 💳 Payment & Escrow Workflow (Paystack + MoMo)
-
-```
-1. STUDENT CHECKOUT ──────> 2. PAYSTACK WEBHOOK ──────> 3. SESSION DELIVERY
-   Student books slot          charge.success verified     Student meets tutor
-   Pays via MTN / Telecel /    Funds logged as 'held'      Shows 6-character
-   AT Mobile Money.            Pending balance +GHS        Check-In Code.
-                                                           │
-                                                           ▼
-5. MOMO WITHDRAWAL  <────── 4. ESCROW RELEASE   <────── TUTOR VERIFIES
-   Tutor requests payout       Atomic DB transaction       Tutor enters PIN;
-   via Paystack Transfer API   moves tutor share from      Booking status
-   to MoMo wallet.             Pending -> Available.       marked 'completed'.
-```
-
-### Cancellation & Refund Matrix
-- **Student Cancels 12+ Hours Before**: 100% automated refund to student MoMo wallet.
-- **Student Cancels < 12 Hours Before**: 50% refund to student, 50% released to tutor for reserved slot.
-- **Tutor No-Show**: 100% refund to student + reliability strike against tutor account.
-- **Disputed Session**: Escrow frozen (`disputed`) pending Campus Operations review.
-
----
-
-## 🚀 Running on Android & iOS
-
-### Prerequisites
-- Node.js 18+ (tested with Node.js 24)
-- npm or yarn
-- Expo Go app on iOS (App Store) or Android (Play Store), or Android Studio / Xcode simulators.
-
-### Installation & Launch
+### 🚀 Running the Web Application
 ```bash
-# 1. Install dependencies
-npm install
+# 1. Build the web bundle (Babel + Tailwind CSS + Lucide Icons)
+npm run build:web
 
-# 2. Start Expo development server
+# 2. Start the local server
+npm run serve:web
+```
+The web application is live at **`http://localhost:5000`**.
+
+### 📱 Running the Mobile App (Android & iOS)
+```bash
+# 1. Start Expo development server
 npm start
-```
 
-### Run on iOS:
-- Press `i` in the terminal to launch the iOS Simulator (macOS), or
-- Scan the displayed QR code with your iPhone camera using the **Expo Go** app.
-
-### Run on Android:
-- Press `a` in the terminal to launch the Android Emulator, or
-- Scan the displayed QR code using the **Expo Go** app on your Android device.
-
-### Run in Browser (Web / PWA):
-- Press `w` in the terminal to preview in your web browser.
-
----
-
-## 📦 Building Native Binaries (APK, AAB, IPA)
-
-Using EAS (Expo Application Services) Build:
-```bash
-# Build Android APK for testing
-npx eas-cli build -p android --profile preview
-
-# Build Android App Bundle (AAB) for Google Play Store
-npx eas-cli build -p android --profile production
-
-# Build iOS IPA for Apple TestFlight / App Store
-npx eas-cli build -p ios --profile production
+# 2. Run on Android or iOS
+npm run android   # Android device / emulator
+npm run ios       # iOS simulator
 ```
 
 ---
 
-## 🔒 Ghana Data Protection Act 2012 (Act 843) Compliance
-- Student IDs and academic transcripts are stored in encrypted, private cloud storage accessed exclusively via time-limited signed URLs.
-- Sensitive payment credentials (MoMo PINs, card numbers) are never stored locally; payments utilize tokenized Paystack checkout.
-- Off-platform contact masking safeguards student privacy and financial security.
+## 🎨 UI/UX Design System Specifications (`pro-dev-ui`)
+
+- **Color Palette & Semantic Tokens**:
+  - Primary: `#0F5C3E` (CCTU Forest Green), Hover: `#0B462F`, Light Surface: `#ECF6F1`
+  - Accent / Gold: `#C29B38` (CCTU Academic Seal Gold)
+  - Navy: `#0B2545` (Admin / Trust Anchor)
+  - Slate Neutrals: `#0F172A` to `#F8FAFC`
+  - Semantic Status: Emerald (`#10B981` success), Amber (`#F59E0B` pending/dispute), Red (`#EF4444` danger)
+- **Typography**:
+  - Primary Font: `Plus Jakarta Sans` for clean, high-legibility UI headings and body copy
+  - Monospace Font: `JetBrains Mono` for course codes, check-in PINs, and currency amounts
+- **Accessibility & Touch Standards**:
+  - Minimum touch targets: 44px by 44px
+  - High WCAG AA color contrast ratios across all text
+  - Fully responsive layout: mobile-first navigation with sliding drawer and desktop sticky sidebar
 
 ---
 
-## 📜 License & Ownership
-Independent Commercial Tutoring Marketplace — Built for Cape Coast Technical University (CCTU) Beachhead Launch.
+## 🏛️ CCTU Academic Structure (6 Schools, 18 Departments)
+
+Pre-seeded and fully searchable by School, Department, and Course Code:
+1. **School of Engineering (SOE)**
+   - Civil Engineering (`CIV 301`)
+   - Electrical/Electronic Engineering (`EEE 205`)
+   - Mechanical Engineering (`MEC 302`)
+   - Renewable Energy Technology (`RET 101`)
+2. **School of Business & Management Studies (SBMS)**
+   - Accounting and Finance (`ACC 201`)
+   - Management and Administration (`MGT 101`)
+   - Marketing Studies (`MKT 202`)
+   - Procurement and Supply Chain Management (`PSM 301`)
+   - Entrepreneurship and Agribusiness (`ENT 102`)
+3. **School of Applied Sciences & Technology (SAST)**
+   - Computer Science & Technology (`CST 204`, `CST 101`)
+   - Statistics & Mathematics (`MAT 101`)
+   - Hospitality Management (`HOS 201`)
+   - Food Science and Postharvest Technology (`FST 301`)
+4. **School of Applied Arts (SAA)**
+   - Tourism Management (`TRM 101`)
+   - Fashion Design and Textile Studies (`FDT 201`)
+   - Liberal Studies (`LBS 101`)
+5. **School of Built & Natural Environment (SBNE)**
+   - Construction Technology and Management (`BCM 201`)
+   - Environmental Management and Technology (`EMT 101`)
+6. **School of Graduate Studies (SGS)**
+   - M.Tech Civil Engineering (`MTC 601`)
+   - M.Tech Construction Technology and Management (`MTB 601`)
+
+---
+
+## ⚡ Core Marketplace Features
+
+1. **Role Switcher**: Seamlessly switch between **Student**, **Tutor**, and **Admin** workspaces.
+2. **Paystack Mobile Money Escrow**:
+   - Integrates MTN MoMo, Telecel Cash, AT Money, and Cards.
+   - 100% upfront payment held safely in escrow.
+3. **Check-In PIN Escrow Settlement**:
+   - 6-character check-in code generated for each booking.
+   - Upon verification by the tutor, escrow releases **88%** to the tutor's MoMo wallet and **12%** to the CCTU platform.
+4. **Tutor Vetting & Accreditation**:
+   - Admin verification queue reviewing Student ID and academic transcripts (requiring Grade A or B+).
+5. **Dispute Resolution & Audit**:
+   - 48-hour dispute window allowing students to file disputes and admins to adjudicate (100% student refund vs release to tutor).
+6. **Course Catalog Management**:
+   - Authorized admins can add new courses dynamically to any CCTU school and department.
+
+---
+
+## 📦 Repository & Project Structure
+
+```
+Course tutor App/
+├── dist/                      # Static web distribution bundle
+│   ├── index.html             # Web entry with Plus Jakarta Sans & Tailwind tokens
+│   └── app.bundle.js          # Compiled Course Tutor web application
+├── src/
+│   ├── CourseTutorApp.tsx     # Full CCTU Peer Tutoring Marketplace Web Application
+│   ├── lucide-react.tsx       # Custom SVG icon set (28 Lucide icons)
+│   ├── main.tsx               # React 18 DOM mount point
+│   ├── index.css              # Tailwind and typography directives
+│   ├── context/               # React Native mobile context
+│   ├── screens/               # React Native mobile screens
+│   ├── navigation/            # React Native navigation
+│   └── theme/                 # Mobile design system constants
+├── scripts/
+│   ├── build-web.js           # Babel compilation and bundling script
+│   └── server.js              # Lightweight local HTTP server (port 5000)
+├── App.tsx                    # Cross-platform mobile root component
+├── app.json                   # Expo application manifest
+├── tailwind.config.js         # Tailwind configuration
+└── package.json               # Dependencies and scripts
+```
